@@ -1,0 +1,52 @@
+v0.2.1 | 19/11/2015
+
+  Features
+
+[01:30] * Added a ButtonNode class
+
+  Bug Fixes
+
+[02:07] ~ Now correctly calculates SpriteNode bounds even after off-setting the origin
+
+
+v0.2.0 | 18/11/2015
+
+  Features
+
+[16:35] * Added a MusicPlayer class
+
+[20:03] * Added a SoundPlayer class
+
+[21:15] * Added a State class for a games' multiple states (title screen, menu screen, game screen, pause screen, etc.)
+
+[21:40] * Added a StateStack class that manages all State objects
+
+  Updates
+
+[16:00] - Text class now derives from SceneNode due to its easier rendering flexibilities
+
+
+
+v0.1.2 | 15/11/2015
+
+  Features
+
+[17:09] * Added a Sprite Node class as a base class for all entities
+
+[19:06] * Added a Collision Handler that checks bounding box collisions and/or pixel perfect collisions (doesn't account for transforms)
+
+
+
+v0.1.0 | 14/11/2015
+
+  Features
+
+[16:34] * Added a template Resource Holder
+
+[16:40] * Added Resource Holder typedefs for sf::Texture, sf::Image, sf::Font, and sf::SoundBuffer
+
+[17:14] * Added a SceneNode class to form a tree-like scene graph
+
+[17:35] * Added an ever so slightly richer Text class compared to sf::Text
+
+
