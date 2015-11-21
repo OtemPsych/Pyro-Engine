@@ -26,6 +26,7 @@ namespace pyro
 		void setSprite(const sf::Texture& texture, sf::IntRect rect);
 
 		void setText(const std::string& str, const sf::Font& font);
+		void setString(const std::string& str);
 	};
 }
 #endif

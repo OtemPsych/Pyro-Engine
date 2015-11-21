@@ -30,14 +30,8 @@ namespace pyro
 		// Set Sprite
 	void ButtonNode::setSprite(const sf::Texture& texture)
 	{
-		std::unique_ptr<SpriteNode> sprite(new SpriteNode(texture));
-
-		if (mSprite != nullptr)
-			detachChild(*mSprite);
-		mSprite = sprite.get();
-		attachChild(std::move(sprite));
-
-		mSprite->centerOrigin();
+		sf::Vector2u textureSize(texture.getSize());
+		setSprite(texture, sf::IntRect(0, 0, textureSize.x, textureSize.y));
 	}
 		// Set Sprite
 	void ButtonNode::setSprite(const sf::Texture& texture, sf::IntRect rect)
@@ -60,5 +54,10 @@ namespace pyro
 			detachChild(*mText);
 		mText = text.get();
 		attachChild(std::move(text));
+	}
+		// Set String
+	void ButtonNode::setString(const std::string& str)
+	{
+		mText->setString(str);
 	}
 }

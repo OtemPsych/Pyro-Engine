@@ -1,3 +1,17 @@
+v1.0.0 | 21/11/2015
+
+[12:52] * Release
+
+
+
+v0.2.1a | 20/11/2015
+
+ Bug Fixes
+
+[24:48] ~ The origin for text now centers correctly
+
+
+
 v0.2.1 | 19/11/2015
 
   Features
@@ -7,6 +21,7 @@ v0.2.1 | 19/11/2015
   Bug Fixes
 
 [02:07] ~ Now correctly calculates SpriteNode bounds even after off-setting the origin
+
 
 
 v0.2.0 | 18/11/2015
@@ -48,5 +63,3 @@ v0.1.0 | 14/11/2015
 [17:14] * Added a SceneNode class to form a tree-like scene graph
 
 [17:35] * Added an ever so slightly richer Text class compared to sf::Text
-
-

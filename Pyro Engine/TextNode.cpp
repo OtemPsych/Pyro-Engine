@@ -7,7 +7,6 @@ namespace pyro
 	// Constructor(s)
 		// Default
 	TextNode::TextNode()
-		: mText()
 	{
 		centerOrigin();
 	}
@@ -46,10 +45,15 @@ namespace pyro
 			mText.setColor(sf::Color(color.r, color.g, color.b,
 									 color.a - rate < limit ? limit : color.a - rate));
 	}
+		// Set String
+	void TextNode::setString(const std::string& str)
+	{
+		mText.setString(str);
+	}
 		// Center Origin
 	void TextNode::centerOrigin()
 	{
 		auto bounds = mText.getLocalBounds();
-		mText.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+		mText.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
 	}
 }

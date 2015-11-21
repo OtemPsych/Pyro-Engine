@@ -24,6 +24,8 @@ namespace pyro
 		void fadeIn(sf::Uint8 rate);
 		void fadeOut(sf::Uint8 rate);
 
+		void setString(const std::string& str);
+
 		virtual void centerOrigin();
 
 		inline sf::Text& getText() { return mText; }
