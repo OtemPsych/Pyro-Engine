@@ -1,3 +1,13 @@
+v1.3.0 | 22/11/2015
+
+  Updates
+
+[16:40] - Removed all SceneNode related classes and replaced them with stand-alone counterparts
+
+[18:51] - Collision Handler now takes account all transforms for the pixel perfect collision test (rotation, scaling)
+
+
+
 v1.0.0 | 21/11/2015
 
 [12:52] * Release

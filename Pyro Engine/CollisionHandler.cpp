@@ -6,43 +6,60 @@ namespace pyro
 {
 	// Private Method(s)
 		// Check Bounding Box Collision
-	bool CollisionHandler::checkBoundingBoxCollision(const SpriteNode& e1, const SpriteNode& e2) const
+	bool CollisionHandler::checkBoundingBoxCollision(const sf::Sprite& e1, const sf::Sprite& e2) const
 	{
-		if (e1.mSprite.getGlobalBounds().intersects(e2.mSprite.getGlobalBounds()))
+		if (e1.getGlobalBounds().intersects(e2.getGlobalBounds()))
 			return true;
 		else
 			return false;
 	}
-		// Check Pixel Collision
-	bool CollisionHandler::checkPixelCollision(const SpriteNode& e1, const SpriteNode& e2) const
+
+	bool CollisionHandler::checkPixelCollision(const sf::Sprite& e1, const sf::Sprite& e2) const
 	{
-		sf::Image image1 = e1.mSprite.getTexture()->copyToImage(),
-				  image2 = e2.mSprite.getTexture()->copyToImage();
+		sf::IntRect bounds1(static_cast<sf::IntRect>(e1.getGlobalBounds()));
+		sf::IntRect bounds2(static_cast<sf::IntRect>(e2.getGlobalBounds()));
+		sf::IntRect intersection;
 
-		sf::IntRect bounds1 = static_cast<sf::IntRect>(e1.mSprite.getGlobalBounds()),
-				    bounds2 = static_cast<sf::IntRect>(e2.mSprite.getGlobalBounds());
+		if (bounds1.intersects(bounds2, intersection))
+		{
+			const sf::Transform& inverse1(e1.getInverseTransform());
+			const sf::Transform& inverse2(e2.getInverseTransform());
+			
+			const sf::Image image1 = e1.getTexture()->copyToImage();
+			const sf::Image image2 = e2.getTexture()->copyToImage();
 
-		sf::IntRect boxBounds(std::max(bounds1.left, bounds2.left),
-							  std::max(bounds1.top, bounds2.top),
-							  std::min(bounds1.width, bounds2.width),
-							  std::min(bounds1.height, bounds2.height));
+			const sf::Vector2u imgSize1(image1.getSize());
+			const sf::Vector2u imgSize2(image2.getSize());
 
-		for (int i = boxBounds.left; i < boxBounds.width; i++)
-			for (int j = boxBounds.top; j < boxBounds.height; j++)
-			{
-				sf::Color color1 = image1.getPixel(i - bounds1.left, j - bounds1.top),
-						  color2 = image2.getPixel(i - bounds2.left, j - bounds2.top);
+			const sf::Uint8* pixels1 = image1.getPixelsPtr();
+			const sf::Uint8* pixels2 = image2.getPixelsPtr();
+			
+			sf::Vector2f vec1, vec2;
+			int xMax = intersection.left + intersection.width;
+			int yMax = intersection.top + intersection.height;
+			
+			for (int i = intersection.left; i < xMax; i++)
+				for (int j = intersection.top; j < yMax; j++) 
+				{
+				 	vec1 = inverse1.transformPoint(i, j);
+				 	vec2 = inverse2.transformPoint(i, j);
 
-				if (color1.a > 0 && color2.a > 0)
-					return true;
-			}
-
+					int idx1 = (static_cast<int>(vec1.x) + static_cast<int>(vec1.y) * imgSize1.x) * 4 + 3;
+				 	int idx2 = (static_cast<int>(vec2.x) + static_cast<int>(vec2.y) * imgSize2.x) * 4 + 3;
+				
+					if (vec1.x > 0 && vec1.y > 0 && vec2.x > 0 && vec2.y > 0 &&
+					 	vec1.x < imgSize1.x && vec1.y < imgSize1.y &&
+					 	vec2.x < imgSize2.x && vec2.y < imgSize2.y &&
+						pixels1[idx1] > 0 && pixels2[idx2] > 0)
+					 	return true;
+				}
+		}
 		return false;
 	}
 
 	// Public Method(s)
-		// Check Collision | Single, Single
-	bool CollisionHandler::checkCollision(const SpriteNode& e1, const SpriteNode& e2,
+		// Check Collision
+	bool CollisionHandler::checkCollision(const sf::Sprite& e1, const sf::Sprite& e2,
 										  bool pixelCollision) const
 	{
 		if (checkBoundingBoxCollision(e1, e2))
@@ -54,26 +71,5 @@ namespace pyro
 				return true;
 
 		return false;
-	}
-		// Check Collision | Single, Multiple
-	const CollisionHandler::SprPair CollisionHandler::checkCollision(const SpriteNode& e1, const SprVector& e2,
-																	 bool pixelCollision) const
-	{
-		for (const auto& i : e2)
-			if (checkCollision(e1, i, pixelCollision))
-				return SprPair(&i, nullptr);
-
-		return SprPair(nullptr, nullptr);
-	}
-		// Check Collision | Multiple, Multiple
-	const CollisionHandler::SprPair CollisionHandler::checkCollision(const SprVector& e1, const SprVector& e2,
-																	 bool pixelCollision) const
-	{
-		for (const auto& i : e1)
-			for (const auto& j : e2)
-				if (checkCollision(i, j, pixelCollision))
-					return SprPair(&i, &j);
-
-		return SprPair(nullptr, nullptr);
 	}
 }
