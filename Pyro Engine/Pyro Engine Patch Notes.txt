@@ -1,10 +1,38 @@
-v1.3.0 | 22/11/2015
+v1.2.0 | 14/22/2015
+
+  Features
+
+[01:33] * Added a basic Particle System prototype
+
+
+
+v1.1.1a | 13/12/2015
+
+  Features
+
+[14:44] * Added a Text Constructor that takes in a string, a font, and an optional character Size
+
+  Updates
+
+[14:20] - The CenterOrigin method for the Text class now takes a boolean parameter to determine if centering is desired or not
+
+
+
+v1.1.1 | 09/12/2015
+
+  Features
+
+[18:21] * Added CollisionHandler methods to take vectors as parameters
+
+
+
+v1.1.0 | 22/11/2015
 
   Updates
 
 [16:40] - Removed all SceneNode related classes and replaced them with stand-alone counterparts
 
-[18:51] - Collision Handler now takes account all transforms for the pixel perfect collision test (rotation, scaling)
+[18:51] - Collision Handler now takes scaling into account for the pixel perfect collision test
 
 
 

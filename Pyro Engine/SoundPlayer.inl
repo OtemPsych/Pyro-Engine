@@ -53,8 +53,6 @@ namespace pyro
 		sound.setAttenuation(mSoundCoords.attenuation);
 		sound.setMinDistance(mSoundCoords.minDistance3D);
 
-		std::cout << mSounds.size() << std::endl;
-
 		sound.play();
 	}
 		// Load Effect

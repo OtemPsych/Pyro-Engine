@@ -6,7 +6,7 @@ namespace pyro
 	void StateStack::registerState(StateID::ID stateID)
 	{
 		mFactories[stateID] = [this] {
-			return StatePtr(new T(this, mWindow));
+			return StatePtr(new T(*this, mWindow));
 		};
 	}
 }

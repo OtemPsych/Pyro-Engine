@@ -1,10 +1,18 @@
 #include "Text.h"
 
+#include <SFML/Graphics/RenderTarget.hpp>
+
 namespace pyro
 {
 	// Constructor(s)
 		// Default
 	Text::Text()
+	{
+		centerOrigin();
+	}
+		// Constructor 1
+	Text::Text(const std::string& string, const sf::Font& font, unsigned charSize)
+		: sf::Text(string, font, charSize)
 	{
 		centerOrigin();
 	}
@@ -31,10 +39,14 @@ namespace pyro
 							   color.a - rate < limit ? limit : color.a - rate));
 	}
 		// Center Origin
-	void Text::centerOrigin()
+	void Text::centerOrigin(bool state)
 	{
-		sf::FloatRect bounds = getLocalBounds();
-		setOrigin(bounds.left + bounds.width / 2.f,
-				  bounds.top + bounds.height / 2.f);
+		if (state) {
+			sf::FloatRect bounds = getLocalBounds();
+			setOrigin(bounds.left + bounds.width / 2.f,
+					  bounds.top + bounds.height / 2.f);
+		}
+		else
+			setOrigin(0.f, 0.f);
 	}
 }
