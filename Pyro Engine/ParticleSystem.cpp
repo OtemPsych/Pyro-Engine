@@ -12,7 +12,7 @@ namespace pyro
 		: mPrimeParticle(new Particle(prime))
 		, mTexture(texture)
 		, mMaxParticles(0)
-		, mVertexArray(sf::Quads)
+		, mVertexArray(sf::TrianglesFan)
 	{
 	}
 
@@ -35,9 +35,9 @@ namespace pyro
 			c.a = static_cast<sf::Uint8>(255 * std::max(ratio, 0.f));
 
 			addVertex(pos.x - half.x, pos.y - half.y, 0.f,	  0.f,	  c);
-			addVertex(pos.x + half.x, pos.y - half.y, size.x, 0.f,	  sf::Color::Black);
+			addVertex(pos.x + half.x, pos.y - half.y, size.x, 0.f,	  c);
 			addVertex(pos.x + half.x, pos.y + half.y, size.x, size.y, c);
-			addVertex(pos.x - half.x, pos.y + half.y, 0.f,	  size.y, sf::Color::Black);
+			addVertex(pos.x - half.x, pos.y + half.y, 0.f,	  size.y, c);
 		}
 	}
 		// Add Particle
@@ -51,7 +51,6 @@ namespace pyro
 		sf::Vertex vertex;
 		vertex.position = sf::Vector2f(x, y);
 		vertex.texCoords = sf::Vector2f(tu, tv);
-
 		vertex.color = color;
 
 		mVertexArray.append(vertex);
@@ -72,10 +71,11 @@ namespace pyro
 				&& (mParticles.size() < mMaxParticles || mMaxParticles == 0))
 				addParticle();
 
-			for (unsigned i = 0; i < mParticles.size(); i++) {
+			for (unsigned i = 0; i < mParticles.size(); i++) 
+			{
+				mAffector(mParticles[i], dt);
 				if ((mParticles[i].lifetime -= dt) <= sf::Time::Zero)
 					mParticles.erase(mParticles.begin() + i);
-				mAffector(mParticles[i], dt);
 			}
 
 			computeVertices();

@@ -12,12 +12,10 @@ namespace pyro
 	class StateStack : private sf::NonCopyable
 	{
 	public:
-		// Public Enum(s)
 		enum Action { Push, Pop, Clear };
 	private:
-		// Private Typedef(s)
 		using StatePtr = std::unique_ptr<State>;
-		// Private Struct(s)
+
 		struct PendingChange {
 			explicit PendingChange(Action action, StateID::ID stateID = StateID::None);
 
@@ -25,7 +23,6 @@ namespace pyro
 			StateID::ID stateID;
 		};
 	private:
-		// Private Member(s)
 		std::vector<StatePtr>							 mStack;
 		std::vector<PendingChange>						 mPendingList;
 
@@ -33,13 +30,11 @@ namespace pyro
 		sf::RenderWindow&								 mWindow;
 
 	private:
-		// Private Method(s)
 		StatePtr createState(StateID::ID stateID);
 		void	 applyPendingChanges();
 	public:
-		// Constructor(s)
 		explicit StateStack(sf::RenderWindow& window);
-		// Public Method(s)
+	public:
 		void handleEvent(const sf::Event& event);
 		void update(sf::Time dt);
 		void draw();

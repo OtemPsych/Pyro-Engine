@@ -41,7 +41,7 @@ namespace pyro
 	}
 		// Play
 	template <typename SoundID>
-	void SoundPlayer<SoundID>::play(SoundID effect, sf::Vector2f pos)
+	void SoundPlayer<SoundID>::play(SoundID effect, sf::Vector2f pos, float volume)
 	{
 		removeStoppedSounds();
 
@@ -52,6 +52,7 @@ namespace pyro
 		sound.setPosition(pos.x, -pos.y, 0.f);
 		sound.setAttenuation(mSoundCoords.attenuation);
 		sound.setMinDistance(mSoundCoords.minDistance3D);
+		sound.setVolume(volume);
 
 		sound.play();
 	}

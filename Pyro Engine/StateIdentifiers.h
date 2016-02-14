@@ -18,7 +18,8 @@ namespace pyro
 			Pause,
 			GameOver,
 			MissionSuccess,
-			Settings
+			Settings,
+			OnlineChat
 		};
 	}
 }

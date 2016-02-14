@@ -1,4 +1,24 @@
-v1.2.0 | 14/22/2015
+v1.2.1a | 29/01/2016
+
+  Features
+
+[01:58] * Added math functions (converting radians to degrees and vice-versa, magnitude of a vector, vector normalizer)
+
+
+
+v1.2.1 | 18/12/2015
+
+  Features
+
+[14:39] * Added an Application class
+
+  Updates
+
+[14:20] - Make the window reference member in State class protected
+
+
+
+v1.2.0 | 14/12/2015
 
   Features
 
@@ -70,7 +90,7 @@ v0.2.0 | 18/11/2015
 
 [20:03] * Added a SoundPlayer class
 
-[21:15] * Added a State class for a games' multiple states (title screen, menu screen, game screen, pause screen, etc.)
+[21:15] * Added a State class for a game's multiple states (title screen, menu screen, game screen, pause screen, etc.)
 
 [21:40] * Added a StateStack class that manages all State objects
 

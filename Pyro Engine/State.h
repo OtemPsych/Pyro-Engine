@@ -13,6 +13,8 @@ namespace pyro
 	private:
 		// Private Member(s)
 		StateStack&		  mStack;
+	protected:
+		// Protected Member(s)
 		sf::RenderWindow& mWindow;
 
 	protected:

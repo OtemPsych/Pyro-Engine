@@ -14,6 +14,7 @@ namespace pyro
 	struct Particle
 	{
 		sf::Vector2f position;
+		sf::Vector2f velocity;
 		sf::Color	 color;
 		sf::Time	 lifetime;
 	};

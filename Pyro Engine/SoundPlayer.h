@@ -37,7 +37,7 @@ namespace pyro
 		SoundPlayer();
 		// Public Method(s)
 		void play(SoundID effect);
-		void play(SoundID effect, sf::Vector2f pos);
+		void play(SoundID effect, sf::Vector2f pos, float volume = 100);
 
 		void loadEffect(SoundID effectID, const std::string& filename);
 
