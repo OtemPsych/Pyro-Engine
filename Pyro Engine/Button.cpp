@@ -38,6 +38,8 @@ namespace pyro
 		// Center Origin
 	void Button::centerOrigin()
 	{
+		mText.centerOrigin();
+
 		sf::FloatRect sprBounds(mSprite.getLocalBounds());
 		mSprite.setOrigin(sprBounds.width / 2.f, sprBounds.height / 2.f);
 	}

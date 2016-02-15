@@ -1,3 +1,11 @@
+v1.2.2 | 15/02/2016
+
+  Updates
+
+[23:38] - Text now has an outline of the opposite color that makes it a bit more readable
+
+
+
 v1.2.1a | 29/01/2016
 
   Features
@@ -52,7 +60,7 @@ v1.1.0 | 22/11/2015
 
 [16:40] - Removed all SceneNode related classes and replaced them with stand-alone counterparts
 
-[18:51] - Collision Handler now takes scaling into account for the pixel perfect collision test
+[18:51] - Collision Handler now takes account all transforms for the pixel perfect collision test (rotation, scaling)
 
 
 

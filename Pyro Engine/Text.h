@@ -3,23 +3,24 @@
 
 #include <SFML/Graphics/Text.hpp>
 
-#include <memory>
-
 namespace pyro
 {
 	class Text : public sf::Text
 	{
-	public:
-		// Constructor(s)
-		Text();
-		Text(const std::string& string, const sf::Font& font, unsigned charSize = 30);
-		// Public Method(s)
-		void update();
+	private:
+		sf::Text mOutline;
 
+	private:
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	public:
+		Text();
+	public:
 		void fadeIn(sf::Uint8 rate);
 		void fadeOut(sf::Uint8 rate);
 
-		void centerOrigin(bool state = true);
+		void centerOrigin();
+		void generalUpdate();
+		void updateString();
 	};
 }
 #endif

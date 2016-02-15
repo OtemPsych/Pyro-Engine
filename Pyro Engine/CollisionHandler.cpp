@@ -1,9 +1,6 @@
 #include "CollisionHandler.h"
 
 #include <SFML/Graphics/Texture.hpp>
-#include <SFML/System/Thread.hpp>
-
-#include <functional>
 
 namespace pyro
 {
@@ -19,9 +16,9 @@ namespace pyro
 
 	bool CollisionHandler::checkPixelCollision(const sf::Sprite& e1, const sf::Sprite& e2) const
 	{
-		sf::FloatRect bounds1(e1.getGlobalBounds());
-		sf::FloatRect bounds2(e2.getGlobalBounds());
-		sf::FloatRect intersection;
+		sf::IntRect bounds1(static_cast<sf::IntRect>(e1.getGlobalBounds()));
+		sf::IntRect bounds2(static_cast<sf::IntRect>(e2.getGlobalBounds()));
+		sf::IntRect intersection;
 
 		if (bounds1.intersects(bounds2, intersection))
 		{
@@ -37,14 +34,15 @@ namespace pyro
 			const sf::Uint8* pixels1 = image1.getPixelsPtr();
 			const sf::Uint8* pixels2 = image2.getPixelsPtr();
 			
-			float xMax = intersection.left + intersection.width;
-			float yMax = intersection.top + intersection.height;
+			sf::Vector2f vec1, vec2;
+			int xMax = intersection.left + intersection.width;
+			int yMax = intersection.top + intersection.height;
 			
-			for (float x = intersection.left; x < xMax; x++)
-				for (float y = intersection.top; y < yMax; y++) 
+			for (float i = static_cast<float>(intersection.left); i < xMax; i++)
+				for (float j = static_cast<float>(intersection.top); j < yMax; j++) 
 				{
-				 	sf::Vector2f vec1 = inverse1.transformPoint(x, y);
-				 	sf::Vector2f vec2 = inverse2.transformPoint(x, y);
+				 	vec1 = inverse1.transformPoint(i, j);
+				 	vec2 = inverse2.transformPoint(i, j);
 
 					int idx1 = (static_cast<int>(vec1.x) + static_cast<int>(vec1.y) * imgSize1.x) * 4 + 3;
 				 	int idx2 = (static_cast<int>(vec2.x) + static_cast<int>(vec2.y) * imgSize2.x) * 4 + 3;
@@ -60,7 +58,7 @@ namespace pyro
 	}
 
 	// Public Method(s)
-		// Check Collision | Single, Single
+		// Check Collision
 	bool CollisionHandler::checkCollision(const sf::Sprite& e1, const sf::Sprite& e2,
 										  bool pixelCollision) const
 	{
@@ -73,35 +71,5 @@ namespace pyro
 				return true;
 
 		return false;
-	}
-		// Check Collision | Single, Multiple
-	CollisionHandler::CollisionVec CollisionHandler::checkCollision(const sf::Sprite& e1, const SprVector& e2,
-																	bool pixelCollision) const
-	{
-		for (const auto& i : e2)
-			if (checkCollision(e1, i, pixelCollision))
-				return CollisionVec(&e1, &i, true);
-
-		return CollisionVec();
-	}
-		// Check Collision | Multiple, Multiple
-	CollisionHandler::CollisionVec CollisionHandler::checkCollision(const SprVector& e1, const SprVector& e2,
-																	bool pixelCollision) const
-	{
-		for (const auto& i : e1)
-			for (const auto& j : e2)
-				if (checkCollision(i, j, pixelCollision))
-					return CollisionVec(&i, &j, true);
-
-		return CollisionVec();
-	}
-
-	// Collision Vec Constructor
-	CollisionHandler::CollisionVec::CollisionVec(const sf::Sprite* pSpr1, const sf::Sprite* pSpr2,
-												 bool pCondition)
-		: spr1(pSpr1)
-		, spr2(pSpr2)
-		, condition(pCondition)
-	{
 	}
 }

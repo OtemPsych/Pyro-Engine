@@ -4,21 +4,17 @@
 
 namespace pyro
 {
-	// Constructor(s)
-		// Default
 	Text::Text()
 	{
 		centerOrigin();
 	}
-		// Constructor 1
-	Text::Text(const std::string& string, const sf::Font& font, unsigned charSize)
-		: sf::Text(string, font, charSize)
+
+	void Text::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		centerOrigin();
+		target.draw(mOutline, this->getTransform());
+		target.draw(*this);
 	}
 
-	// Public Method(s)
-		// Fade In
 	void Text::fadeIn(sf::Uint8 rate)
 	{
 		sf::Uint8 limit = 255;
@@ -28,7 +24,7 @@ namespace pyro
 			setColor(sf::Color(color.r, color.g, color.b,
 							   color.a + rate > limit ? limit : color.a + rate));
 	}
-		// Fade Out
+
 	void Text::fadeOut(sf::Uint8 rate)
 	{
 		sf::Uint8 limit = 0;
@@ -38,15 +34,33 @@ namespace pyro
 			setColor(sf::Color(color.r, color.g, color.b,
 							   color.a - rate < limit ? limit : color.a - rate));
 	}
-		// Center Origin
-	void Text::centerOrigin(bool state)
+
+	void Text::centerOrigin()
 	{
-		if (state) {
-			sf::FloatRect bounds = getLocalBounds();
-			setOrigin(bounds.left + bounds.width / 2.f,
-					  bounds.top + bounds.height / 2.f);
-		}
-		else
-			setOrigin(0.f, 0.f);
+		sf::FloatRect bounds = getLocalBounds();
+		setOrigin(bounds.left + bounds.width / 2.f,
+				  bounds.top + bounds.height / 2.f);
+	}
+
+	void Text::generalUpdate()
+	{
+		mOutline.setFont(*(this->getFont()));
+		mOutline.setString(this->getString());
+
+		mOutline.setCharacterSize(this->getCharacterSize());
+		mOutline.setScale(this->getScale());
+		mOutline.setRotation(this->getRotation());
+		mOutline.setStyle(this->getStyle());
+
+		mOutline.setOrigin(this->getOrigin());
+		mOutline.setPosition(2.f, 2.f);
+
+		sf::Color color(this->getColor());
+		mOutline.setColor(sf::Color(255 - color.r, 255 - color.g, 255 - color.b));
+	}
+
+	void Text::updateString()
+	{
+		mOutline.setString(this->getString());
 	}
 }

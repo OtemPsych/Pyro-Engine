@@ -11,24 +11,20 @@ namespace pyro
 	class State : private sf::NonCopyable
 	{
 	private:
-		// Private Member(s)
 		StateStack&		  mStack;
 	protected:
-		// Protected Member(s)
 		sf::RenderWindow& mWindow;
 
 	protected:
-		// Protected Method(s)
 		void requestStatePush(StateID::ID stateID);
 		void requestStatePop();
 		void requestStateClear();
 
 		virtual void setupResources() = 0;
 	public:
-		// Constructor(s) | Destructor
 		State(StateStack& stack, sf::RenderWindow& window);
 		virtual ~State();
-		// Public Method(s)
+	public:
 		virtual bool handleEvent(const sf::Event& event) = 0;
 		virtual bool update(sf::Time dt) = 0;
 		virtual void draw() = 0;
