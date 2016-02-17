@@ -19,8 +19,12 @@ namespace pyro
 		void fadeOut(sf::Uint8 rate);
 
 		void centerOrigin();
-		void generalUpdate();
-		void updateString();
+
+		void setString(const std::string& str);
+		void setFont(const sf::Font& font);
+		void setCharacterSize(unsigned size);
+		void setColor(const sf::Color& color);
+		void setStyle(sf::Uint32 style);
 	};
 }
 #endif
