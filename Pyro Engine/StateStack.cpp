@@ -1,6 +1,7 @@
 #include "StateStack.h"
 
 #include <cassert>
+#include <iostream>
 
 namespace pyro
 {
@@ -27,7 +28,7 @@ namespace pyro
 			switch (change.action)
 			{
 			case Push:
-				mStack.push_back(createState(change.stateID));
+				mStack.push_back(std::make_pair(change.stateID, createState(change.stateID)));
 				break;
 
 			case Pop:
@@ -47,7 +48,7 @@ namespace pyro
 	void StateStack::handleEvent(const sf::Event& event)
 	{
 		for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr)
-			if (!(*itr)->handleEvent(event))
+			if (!(*itr).second->handleEvent(event))
 				break;
 
 		applyPendingChanges();
@@ -56,7 +57,7 @@ namespace pyro
 	void StateStack::update(sf::Time dt)
 	{
 		for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr)
-			if (!(*itr)->update(dt))
+			if (!(*itr).second->update(dt))
 				break;
 
 		applyPendingChanges();
@@ -64,8 +65,8 @@ namespace pyro
 		// Draw
 	void StateStack::draw()
 	{
-		for (StatePtr& state : mStack)
-			state->draw();
+		for (const auto& state : mStack)
+			state.second->draw();
 	}
 		// Push State
 	void StateStack::pushState(StateID::ID stateID)
@@ -81,6 +82,13 @@ namespace pyro
 	void StateStack::clearStates()
 	{
 		mPendingList.push_back(PendingChange(Clear));
+	}
+		// Get State
+	const StateStack::StatePtr& StateStack::getState(StateID::ID stateID)
+	{
+		for (const auto& state : mStack)
+			if (state.first == stateID)
+				return state.second;
 	}
 
 	// Pending Change Constructor

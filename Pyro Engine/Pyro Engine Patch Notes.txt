@@ -30,7 +30,7 @@ v1.2.1 | 18/12/2015
 
   Updates
 
-[14:20] - Make the window reference member in State class protected
+[14:20] - Made the window reference member in State class protected
 
 
 

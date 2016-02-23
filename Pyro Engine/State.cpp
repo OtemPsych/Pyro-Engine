@@ -31,6 +31,10 @@ namespace pyro
 	{
 		mStack.clearStates();
 	}
+	// Setup Resources
+	void State::setupResources()
+	{
+	}
 
 	// Public Method(s)
 	// Handle Event
@@ -42,5 +46,9 @@ namespace pyro
 	bool State::update(sf::Time dt)
 	{
 		return true;
+	}
+	// Draw
+	void State::draw()
+	{
 	}
 }

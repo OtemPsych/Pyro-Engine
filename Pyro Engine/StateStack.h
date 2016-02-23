@@ -23,7 +23,7 @@ namespace pyro
 			StateID::ID stateID;
 		};
 	private:
-		std::vector<StatePtr>							 mStack;
+		std::vector<std::pair<StateID::ID, StatePtr>>	 mStack;
 		std::vector<PendingChange>						 mPendingList;
 
 		std::map<StateID::ID, std::function<StatePtr()>> mFactories;
@@ -42,6 +42,8 @@ namespace pyro
 		void pushState(StateID::ID stateID);
 		void popState();
 		void clearStates();
+
+		const StatePtr& getState(StateID::ID stateID);
 
 		template <typename T>
 		void registerState(StateID::ID stateID);

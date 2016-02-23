@@ -20,14 +20,14 @@ namespace pyro
 		void requestStatePop();
 		void requestStateClear();
 
-		virtual void setupResources() = 0;
+		virtual void setupResources();
 	public:
 		State(StateStack& stack, sf::RenderWindow& window);
 		virtual ~State();
 	public:
-		virtual bool handleEvent(const sf::Event& event) = 0;
-		virtual bool update(sf::Time dt) = 0;
-		virtual void draw() = 0;
+		virtual bool handleEvent(const sf::Event& event);
+		virtual bool update(sf::Time dt);
+		virtual void draw();
 	};
 }
 #endif
