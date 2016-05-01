@@ -2,34 +2,35 @@
 #define ResourceHolder_H_
 
 #include <SFML/System/NonCopyable.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 #include <map>
-#include <memory>
 
-namespace pyro 
+namespace pyro
 {
 	template <typename ID, typename Res>
 	class ResourceHolder : private sf::NonCopyable
 	{
 	private:
-		// Private Typedef(s)
-		using ResPtr = std::unique_ptr<Res>;
-	private:
-		// Private Member(s)
-		std::map<ID, ResPtr> mResourceMap;
+		std::map<ID, Res> mResourceMap;
 
 	private:
-		// Private Method(s)
-		void insertResource(ID id, ResPtr res);
+		void insertResource(ID id, const Res& res);
 	public:
-		// Public Method(s)
 		void load(ID id, const std::string& filename);
-		template <typename Param>
-		void load(ID id, const std::string& filename, const Param& param);
-
-		Res&	   get(ID id);
 		const Res& get(ID id) const;
 	};
+
+	template <typename ID>
+	using TextureHolder     = ResourceHolder<ID, sf::Texture>;
+	template <typename ID>
+	using ImageHolder       = ResourceHolder<ID, sf::Image>;
+	template <typename ID>
+	using FontHolder        = ResourceHolder<ID, sf::Font>;
+	template <typename ID>
+	using SoundBufferHolder = ResourceHolder<ID, sf::SoundBuffer>;
 }
 #include "ResourceHolder.inl"
 #endif

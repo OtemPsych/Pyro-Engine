@@ -5,15 +5,17 @@
 
 namespace pyro
 {
-	// Constructor(s)
-		// Constructor 1
+	StateStack::PendingChange::PendingChange(Action action, StateID::ID stateID)
+		: action(action)
+		, stateID(stateID)
+	{
+	}
+
 	StateStack::StateStack(sf::RenderWindow& window)
 		: mWindow(window)
 	{
 	}
 
-	// Private Method(s)
-		// Create State
 	StateStack::StatePtr StateStack::createState(StateID::ID stateID)
 	{
 		auto found = mFactories.find(stateID);
@@ -21,7 +23,7 @@ namespace pyro
 
 		return found->second();
 	}
-		// Apply Pending Changes
+
 	void StateStack::applyPendingChanges()
 	{
 		for (const auto& change : mPendingList)
@@ -43,8 +45,6 @@ namespace pyro
 		mPendingList.clear();
 	}
 
-	// Public Method(s)
-		// Handle Event
 	void StateStack::handleEvent(const sf::Event& event)
 	{
 		for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr)
@@ -53,7 +53,7 @@ namespace pyro
 
 		applyPendingChanges();
 	}
-		// Update
+
 	void StateStack::update(sf::Time dt)
 	{
 		for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr)
@@ -62,39 +62,41 @@ namespace pyro
 
 		applyPendingChanges();
 	}
-		// Draw
+
 	void StateStack::draw()
 	{
 		for (const auto& state : mStack)
 			state.second->draw();
 	}
-		// Push State
+
 	void StateStack::pushState(StateID::ID stateID)
 	{
 		mPendingList.push_back(PendingChange(Push, stateID));
 	}
-		// Pop State
+
 	void StateStack::popState()
 	{
 		mPendingList.push_back(PendingChange(Pop));
 	}
-		// Clear States
+
+	void StateStack::removeState(StateID::ID stateID)
+	{
+		for (unsigned i = 0; i < mStack.size(); i++)
+			if (mStack[i].first == stateID)
+				mStack.erase(mStack.begin() + i);
+	}
+
 	void StateStack::clearStates()
 	{
 		mPendingList.push_back(PendingChange(Clear));
 	}
-		// Get State
-	const StateStack::StatePtr& StateStack::getState(StateID::ID stateID)
+
+	const State* StateStack::getState(StateID::ID stateID)
 	{
 		for (const auto& state : mStack)
 			if (state.first == stateID)
-				return state.second;
-	}
+				return state.second.get();
 
-	// Pending Change Constructor
-	StateStack::PendingChange::PendingChange(Action action, StateID::ID stateID)
-		: action(action)
-		, stateID(stateID)
-	{
+		return nullptr;
 	}
 }

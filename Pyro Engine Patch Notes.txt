@@ -1,0 +1,190 @@
+v1.2.5 | 29/04/2016, 30/04/2016
+
+  Features
+
+    * Added a caret for the textbox to indicate that the textbox has been activated
+
+  Updates
+
+    - Optimization of the Text and ClickableGUIEntity classes and reduction of possible memory leaks
+
+    - Removal of the Button class as it didn't offer anything more than the ClickableGUIEntity class
+
+    - MusicPlayer and SoundPlayer have been moved to an Audio folder
+
+    - ClickableGUIEntity and Textbox have been moved to a GUI folder
+
+
+
+v1.2.4a | 29/02/2016
+
+  Updates
+
+    - Text class now holds a pointer to an already existing font or creates one itself
+
+    - Removed Text class's fadeIn and fadeOut methods as they proved to be faulty, plans to add them again in the
+      future once a solution surfaces
+
+
+
+v1.2.4 | 28/02/2016
+
+  Features
+
+    * Added ClickableGUIEntity class from which derive the class Button and the new class Textbox
+
+  Updates
+
+    - Improved Textbox's text entry, now also able to erase text
+
+    - Text's outline is now either black or white, white if the text's color is any color but white and black if it is
+
+
+
+v1.2.3 | 27/02/2016
+
+  Features
+
+    * Added GUI class Textbox
+
+
+
+v1.2.2a | 17/02/2016
+
+  Updates
+
+    - No longer have to call extra methods to update Text Outline, everything updates by using the class's primary methods
+
+
+
+v1.2.2 | 15/02/2016
+
+  Updates
+
+    - Text now has an outline of the opposite color that makes it a bit more readable
+
+
+
+v1.2.1a | 29/01/2016
+
+  Features
+
+    * Added math functions (converting radians to degrees and vice-versa, magnitude of a vector, vector normalizer)
+
+
+
+v1.2.1 | 18/12/2015
+
+  Features
+
+    * Added an Application class
+
+  Updates
+
+    - Made the window reference member in State class protected
+
+
+
+v1.2.0 | 14/12/2015
+
+  Features
+
+    * Added a basic Particle System prototype
+
+
+
+v1.1.1a | 13/12/2015
+
+  Features
+
+    * Added a Text Constructor that takes in a string, a font, and an optional character Size
+
+  Updates
+
+    - The CenterOrigin method for the Text class now takes a boolean parameter to determine if centering is desired or not
+
+
+
+v1.1.1 | 09/12/2015
+
+  Features
+
+    * Added CollisionHandler methods to take vectors as parameters
+
+
+
+v1.1.0 | 22/11/2015
+
+  Updates
+
+    - Removed all SceneNode related classes and replaced them with stand-alone counterparts
+
+    - Collision Handler now takes account all transforms for the pixel perfect collision test (rotation, scaling)
+
+
+
+v1.0.0 | 21/11/2015
+
+    * Release
+
+
+
+v0.2.1a | 20/11/2015
+
+ Bug Fixes
+
+    ~ The origin for text now centers correctly
+
+
+
+v0.2.1 | 19/11/2015
+
+  Features
+
+    * Added a ButtonNode class
+
+  Bug Fixes
+
+    ~ Now correctly calculates SpriteNode bounds even after off-setting the origin
+
+
+
+v0.2.0 | 18/11/2015
+
+  Features
+
+    * Added a MusicPlayer class
+
+    * Added a SoundPlayer class
+
+    * Added a State class for a game's multiple states (title screen, menu screen, game screen, pause screen, etc.)
+
+    * Added a StateStack class that manages all State objects
+
+  Updates
+
+    - Text class now derives from SceneNode due to its easier rendering flexibilities
+
+
+
+v0.1.2 | 15/11/2015
+
+  Features
+
+    * Added a Sprite Node class as a base class for all entities
+
+    * Added a Collision Handler that checks bounding box collisions and/or pixel perfect collisions (doesn't account for transforms)
+
+
+
+v0.1.0 | 14/11/2015
+
+  Features
+
+    * Added a template Resource Holder
+
+    * Added Resource Holder typedefs for sf::Texture, sf::Image, sf::Font, and sf::SoundBuffer
+
+    * Added a SceneNode class to form a tree-like scene graph
+
+    * Added an ever so slightly richer Text class compared to sf::Text

@@ -1,7 +1,5 @@
 namespace pyro
 {
-	// Public Method(s)
-		// Register State
 	template <typename T>
 	void StateStack::registerState(StateID::ID stateID)
 	{

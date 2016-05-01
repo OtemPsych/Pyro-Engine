@@ -6,8 +6,6 @@
 
 namespace pyro
 {
-	// Constructor(s)
-		// Constructor 1
 	ParticleSystem::ParticleSystem(const Particle& prime, const sf::Texture* texture)
 		: mPrimeParticle(new Particle(prime))
 		, mTexture(texture)
@@ -16,8 +14,6 @@ namespace pyro
 	{
 	}
 
-	// Private Method(s)
-		// Compute Vertices
 	void ParticleSystem::computeVertices() const
 	{
 		sf::Vector2f size(mTexture == nullptr ? sf::Vector2f(30.f, 30.f) 
@@ -40,12 +36,12 @@ namespace pyro
 			addVertex(pos.x - half.x, pos.y + half.y, 0.f,	  size.y, c);
 		}
 	}
-		// Add Particle
+
 	void ParticleSystem::addParticle()
 	{
 		mParticles.push_back(Particle(*mPrimeParticle));
 	}
-		// Add Vertex
+
 	void ParticleSystem::addVertex(float x, float y, float tu, float tv, const sf::Color& color) const
 	{
 		sf::Vertex vertex;
@@ -55,15 +51,13 @@ namespace pyro
 
 		mVertexArray.append(vertex);
 	}
-		// Draw
+
 	void ParticleSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.texture = mTexture;
 		target.draw(mVertexArray, states);
 	}
 
-	// Public Method(s)
-		// Update
 	void ParticleSystem::update(sf::Time dt)
 	{
 		try {
@@ -87,7 +81,7 @@ namespace pyro
 			exit(EXIT_FAILURE);
 		}
 	}
-		// Set Prime Particle
+
 	void ParticleSystem::setPrimeParticle(const Particle& prime)
 	{
 		mPrimeParticle = std::unique_ptr<Particle>(new Particle(prime));

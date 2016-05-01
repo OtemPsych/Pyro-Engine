@@ -11,9 +11,7 @@ namespace pyro
 		sf::RenderWindow mWindow;
 		StateStack		 mStateStack;
 
-		sf::Time		 mFPS;
-
-		bool			 mClearScreen;
+		sf::Time		 mTimePerFrame;
 
 	private:
 		void processEvents();
@@ -24,12 +22,12 @@ namespace pyro
 					const sf::ContextSettings& settings = sf::ContextSettings());
 	public:
 		void run();
+		void setFPS(unsigned fps);
+
 		void pushState(StateID::ID id);
 		template <typename T>
 		void registerState(StateID::ID id);
 
-		inline void setFPS(float fps) { mFPS = sf::seconds(1.f / fps); }
-		inline void setClearScreen(bool state) { mClearScreen = state; }
 	};
 
 	template <typename T>

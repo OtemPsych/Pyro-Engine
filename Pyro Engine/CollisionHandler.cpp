@@ -4,8 +4,6 @@
 
 namespace pyro
 {
-	// Private Method(s)
-		// Check Bounding Box Collision
 	bool CollisionHandler::checkBoundingBoxCollision(const sf::Sprite& e1, const sf::Sprite& e2) const
 	{
 		if (e1.getGlobalBounds().intersects(e2.getGlobalBounds()))
@@ -57,19 +55,9 @@ namespace pyro
 		return false;
 	}
 
-	// Public Method(s)
-		// Check Collision
 	bool CollisionHandler::checkCollision(const sf::Sprite& e1, const sf::Sprite& e2,
 										  bool pixelCollision) const
 	{
-		if (checkBoundingBoxCollision(e1, e2))
-			if (pixelCollision) {
-				if (checkPixelCollision(e1, e2))
-					return true;
-			}
-			else
-				return true;
-
-		return false;
+		return checkBoundingBoxCollision(e1, e2) && (!pixelCollision || checkPixelCollision(e1, e2));
 	}
 }

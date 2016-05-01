@@ -6,87 +6,65 @@ namespace pyro
 {
 	Text::Text()
 	{
-		centerOrigin();
+		mOutline.setPosition(1.5f, 1.5f);
+		mOutline.setColor(sf::Color::Black);
 
-		mOutline.setPosition(2.f, 2.f);
+		centerOrigin();
+	}
+
+	void Text::centerOrigin()
+	{
+		sf::FloatRect textLBounds(mText.getLocalBounds());
+		mText.setOrigin(textLBounds.left + textLBounds.width / 2.f,
+			            textLBounds.top + textLBounds.height / 2.f);
+
+		sf::FloatRect outlineLBounds(mOutline.getLocalBounds());
+		mOutline.setOrigin(outlineLBounds.left + outlineLBounds.width / 2.f,
+			               outlineLBounds.top + outlineLBounds.height / 2.f);
 	}
 
 	void Text::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		target.draw(mOutline, this->getTransform());
-		target.draw(static_cast<sf::Text>(*this));
+		states.transform *= getTransform();
+
+		target.draw(mOutline, states);
+		target.draw(mText, states);
 	}
 
-	void Text::fadeIn(sf::Uint8 rate)
+	void Text::setString(const std::string& string)
 	{
-		sf::Uint8 limit = 255;
+		mText.setString(string);
+		mOutline.setString(string);
 
-		const sf::Color& color = getColor();
-		if (color.a < limit)
-		{
-			setColor(sf::Color(color.r, color.g, color.b,
-							   color.a + rate > limit ? limit : color.a + rate));
-
-			const sf::Color& outlineColor = mOutline.getColor();
-			mOutline.setColor(sf::Color(outlineColor.r, outlineColor.g, outlineColor.b,
-										outlineColor.a + rate > limit ? limit : outlineColor.a + rate));
-		}
-	}
-
-	void Text::fadeOut(sf::Uint8 rate)
-	{
-		sf::Uint8 limit = 0;
-
-		const sf::Color& color = getColor();
-		if (color.a > limit)
-		{
-			setColor(sf::Color(color.r, color.g, color.b,
-							   color.a - rate < limit ? limit : color.a - rate));
-
-			const sf::Color& outlineColor = mOutline.getColor();
-			mOutline.setColor(sf::Color(outlineColor.r, outlineColor.g, outlineColor.b,
-				outlineColor.a - rate < limit ? limit : outlineColor.a - rate));
-		}
-	}
-
-	void Text::setString(const std::string& str)
-	{
-		sf::Text::setString(str);
-		mOutline.setString(str);
+		centerOrigin();
 	}
 
 	void Text::setFont(const sf::Font& font)
 	{
-		sf::Text::setFont(font);
+		mText.setFont(font);
 		mOutline.setFont(font);
 	}
 
 	void Text::setCharacterSize(unsigned size)
 	{
-		sf::Text::setCharacterSize(size);
+		mText.setCharacterSize(size);
 		mOutline.setCharacterSize(size);
-	}
-
-	void Text::setColor(const sf::Color& color)
-	{
-		sf::Text::setColor(color);
-		mOutline.setColor(sf::Color(255 - color.r, 255 - color.g, 255 - color.b));
 	}
 
 	void Text::setStyle(sf::Uint32 style)
 	{
-		sf::Text::setStyle(style);
+		mText.setStyle(style);
 		mOutline.setStyle(style);
 	}
 
-	void Text::centerOrigin()
+	void Text::setColor(const sf::Color& color)
 	{
-		sf::FloatRect bounds = getLocalBounds();
-		setOrigin(bounds.left + bounds.width / 2.f,
-				  bounds.top + bounds.height / 2.f);
+		mText.setColor(color);
+		mOutline.setColor(color == sf::Color::Black ? sf::Color::White : sf::Color::Black);
+	}
 
-		sf::FloatRect outlineBounds = mOutline.getLocalBounds();
-		mOutline.setOrigin(outlineBounds.left + outlineBounds.width / 2.f,
-						   outlineBounds.top + outlineBounds.height / 2.f);
+	sf::FloatRect Text::getGlobalBounds() const
+	{
+		return getTransform().transformRect(mText.getGlobalBounds());
 	}
 }

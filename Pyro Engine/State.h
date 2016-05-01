@@ -18,6 +18,7 @@ namespace pyro
 	protected:
 		void requestStatePush(StateID::ID stateID);
 		void requestStatePop();
+		void requestStateRemoval(StateID::ID stateID);
 		void requestStateClear();
 
 		virtual void setupResources();

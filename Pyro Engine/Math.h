@@ -21,14 +21,14 @@ namespace pyro
 			return degrees * Math_PI / 180.f;
 		}
 
-		inline float getMagnitude(sf::Vector2f vec)
+		inline float getHypotenuse(sf::Vector2f vec)
 		{
 			return sqrt(pow(vec.x, 2) + pow(vec.y, 2));
 		}
 
 		inline sf::Vector2f normalizeVector(sf::Vector2f vec)
 		{
-			return sf::Vector2f(vec / getMagnitude(vec));
+			return vec / getHypotenuse(vec);
 		}
 	}
 }

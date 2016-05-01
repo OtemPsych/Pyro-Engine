@@ -41,9 +41,10 @@ namespace pyro
 
 		void pushState(StateID::ID stateID);
 		void popState();
+		void removeState(StateID::ID stateID);
 		void clearStates();
 
-		const StatePtr& getState(StateID::ID stateID);
+		const State* getState(StateID::ID stateID);
 
 		template <typename T>
 		void registerState(StateID::ID stateID);

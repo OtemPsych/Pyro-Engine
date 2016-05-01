@@ -10,16 +10,19 @@ namespace pyro
 			None,
 			Title,
 			Menu,
-			PreGame1,
-			PreGame2,
-			PreGame3,
-			Game,
-			Loading,
-			Pause,
-			GameOver,
-			MissionSuccess,
 			Settings,
-			OnlineChat
+			Loading,
+			Game,
+			Pause,
+			Victory,
+			Defeat,
+			MultiplayerConnect,
+			Multiplayer,
+			Other1,
+			Other2,
+			Other3,
+			Other4,
+			Other5
 		};
 	}
 }

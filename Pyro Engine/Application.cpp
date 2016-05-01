@@ -8,9 +8,9 @@ namespace pyro
 							 const sf::ContextSettings& settings)
 		: mWindow(VMode, title, style, settings)
 		, mStateStack(mWindow)
-		, mFPS(sf::seconds(1.f / 60.f))
-		, mClearScreen(true)
+		, mTimePerFrame(sf::seconds(1.f / 60.f))
 	{
+		mWindow.setFramerateLimit(60);
 	}
 
 	void Application::processEvents()
@@ -26,13 +26,12 @@ namespace pyro
 
 	void Application::update()
 	{
-		mStateStack.update(mFPS);
+		mStateStack.update(mTimePerFrame);
 	}
 		
 	void Application::render()
 	{
-		if (mClearScreen)
-			mWindow.clear();
+		mWindow.clear();
 		mStateStack.draw();
 		mWindow.display();
 	}
@@ -45,14 +44,20 @@ namespace pyro
 		{
 			processEvents();
 			TimeSinceLastUpdate += clock.restart();
-			while (TimeSinceLastUpdate > mFPS)
+			while (TimeSinceLastUpdate > mTimePerFrame)
 			{
-				TimeSinceLastUpdate -= mFPS;
+				TimeSinceLastUpdate -= mTimePerFrame;
 				processEvents();
 				update();
 			}
 			render();
 		}
+	}
+
+	void Application::setFPS(unsigned fps)
+	{
+		mTimePerFrame = sf::seconds(1.f / fps);
+		mWindow.setFramerateLimit(fps);
 	}
 
 	void Application::pushState(StateID::ID id)

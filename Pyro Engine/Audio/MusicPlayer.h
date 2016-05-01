@@ -1,7 +1,6 @@
 #ifndef MusicPlayer_H_
 #define MusicPlayer_H_
 
-#include <SFML/System/NonCopyable.hpp>
 #include <SFML/Audio/Music.hpp>
 
 #include <map>
@@ -12,21 +11,19 @@ namespace pyro
 	class MusicPlayer : private sf::NonCopyable
 	{
 	private:
-		// Private Member(s)
-		sf::Music					   mMusic;
+		sf::Music                      mMusic;
 		std::map<MusicID, std::string> mFilenames;
-		float						   mVolume;
+		float                          mVolume;
 
 	public:
-		// Constructor(s)
 		MusicPlayer();
-		// Public Method(s)
+	public:
 		void play(MusicID theme);
 		void stop();
 
 		void loadTheme(MusicID theme, const std::string& filename);
+		void pause(bool flag);
 
-		void	    setPaused(bool paused);
 		inline void setVolume(float volume) { mVolume = volume; }
 	};
 }

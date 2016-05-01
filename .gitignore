@@ -191,3 +191,5 @@ ModelManifest.xml
 *.vcxproj
 *.filters
 *.dll
+Pyro Engine/main.cpp
+Pyro Engine/main.cpp

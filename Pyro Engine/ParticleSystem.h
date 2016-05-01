@@ -22,7 +22,6 @@ namespace pyro
 	class ParticleSystem : public sf::Drawable
 	{
 	private:
-		// Private Member(s)
 		std::unique_ptr<Particle>				 mPrimeParticle;
 		std::vector<Particle>					 mParticles;
 		unsigned								 mMaxParticles;
@@ -35,19 +34,16 @@ namespace pyro
 		std::function<void(Particle&, sf::Time)> mAffector;
 
 	private:
-		// Private Method(s)
 		void computeVertices() const;
 		void addParticle();
 		void addVertex(float x, float y, float tu, float tv, const sf::Color& color) const;
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	public:
-		// Constructor(s)
 		ParticleSystem(const Particle& prime, const sf::Texture* texture = nullptr);
-		// Public Method(s)
+	public:
 		void update(sf::Time dt);
 		void setPrimeParticle(const Particle& prime);
 
-		// 0 for unlimited
 		inline void setMaxParticles(unsigned max = 0) { mMaxParticles = max; }
 
 		inline void setTexture(const sf::Texture* texture) { mTexture = texture; }
