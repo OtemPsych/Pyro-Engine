@@ -20,6 +20,7 @@ namespace pyro
 		void insertResource(ID id, const Res& res);
 	public:
 		void load(ID id, const std::string& filename);
+		Res&       get(ID id);
 		const Res& get(ID id) const;
 	};
 

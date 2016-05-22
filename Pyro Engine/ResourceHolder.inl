@@ -14,16 +14,21 @@ namespace pyro
 	void ResourceHolder<ID, Res>::load(ID id, const std::string& filename)
 	{
 		Res resource;
-		try {
-			if (!resource.loadFromFile(filename))
-				throw std::runtime_error("ResourceHolder::load - Couldn't load " + filename);
-		}
-		catch (std::runtime_error& e) {
-			std::cout << "\nEXCEPTION: " << e.what() << std::endl;
+		if (!resource.loadFromFile(filename)) {
+			std::cout << "\nResourceHolder::load - Failed to load " << filename << std::endl;
 			return;
 		}
 
 		insertResource(id, std::move(resource));
+	}
+
+	template <typename ID, typename Res>
+	Res& ResourceHolder<ID, Res>::get(ID id)
+	{
+		auto found = mResourceMap.find(id);
+		assert(found != mResourceMap.end());
+
+		return found->second;
 	}
 
 	template <typename ID, typename Res>

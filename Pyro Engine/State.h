@@ -10,9 +10,8 @@ namespace pyro
 	class StateStack;
 	class State : private sf::NonCopyable
 	{
-	private:
-		StateStack&		  mStack;
 	protected:
+		StateStack&		  mStack;
 		sf::RenderWindow& mWindow;
 
 	protected:

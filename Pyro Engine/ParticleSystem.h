@@ -15,6 +15,7 @@ namespace pyro
 	{
 		sf::Vector2f position;
 		sf::Vector2f velocity;
+		sf::Vector2f acceleration;
 		sf::Color	 color;
 		sf::Time	 lifetime;
 	};
@@ -37,7 +38,7 @@ namespace pyro
 		void computeVertices() const;
 		void addParticle();
 		void addVertex(float x, float y, float tu, float tv, const sf::Color& color) const;
-		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	public:
 		ParticleSystem(const Particle& prime, const sf::Texture* texture = nullptr);
 	public:
@@ -45,12 +46,9 @@ namespace pyro
 		void setPrimeParticle(const Particle& prime);
 
 		inline void setMaxParticles(unsigned max = 0) { mMaxParticles = max; }
-
 		inline void setTexture(const sf::Texture* texture) { mTexture = texture; }
-
 		inline void activateEmitter(bool state = true) { mEmitterActive = state; }
 		inline void setEmitterPosition(sf::Vector2f pos) { mPrimeParticle->position = pos; }
-
 		inline void setAffector(decltype(mAffector) affector) { mAffector = affector; }
 	};
 }

@@ -2,69 +2,124 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include <iostream>
+
 namespace pyro
 {
 	Text::Text()
+		: mShadow(nullptr)
+		, mFont(nullptr)
+		, mOriginFlags(utils::OriginFlags::Left | utils::OriginFlags::Top)
 	{
-		mOutline.setPosition(1.5f, 1.5f);
-		mOutline.setColor(sf::Color::Black);
-
-		centerOrigin();
-	}
-
-	void Text::centerOrigin()
-	{
-		sf::FloatRect textLBounds(mText.getLocalBounds());
-		mText.setOrigin(textLBounds.left + textLBounds.width / 2.f,
-			            textLBounds.top + textLBounds.height / 2.f);
-
-		sf::FloatRect outlineLBounds(mOutline.getLocalBounds());
-		mOutline.setOrigin(outlineLBounds.left + outlineLBounds.width / 2.f,
-			               outlineLBounds.top + outlineLBounds.height / 2.f);
 	}
 
 	void Text::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= getTransform();
 
-		target.draw(mOutline, states);
+		if (mShadow) 
+			target.draw(*mShadow, states);
 		target.draw(mText, states);
 	}
 
 	void Text::setString(const std::string& string)
 	{
 		mText.setString(string);
-		mOutline.setString(string);
+		if (mShadow)
+			mShadow->setString(string);
 
-		centerOrigin();
+		setOriginFlags(mOriginFlags);
 	}
 
 	void Text::setFont(const sf::Font& font)
 	{
 		mText.setFont(font);
-		mOutline.setFont(font);
+		if (mShadow)
+			mShadow->setFont(font);
+
+		mFont.reset();
+	}
+
+	void Text::loadFontFromFile(const std::string& filename)
+	{
+		mFont = std::make_unique<sf::Font>();
+		if (!mFont->loadFromFile(filename)) {
+			std::cout << "pyro::Text::loadFontFromFile - Failed to load " << filename << std::endl;
+			return;
+		}
+
+		mText.setFont(*mFont);
+		if (mShadow)
+			mShadow->setFont(*mFont);
 	}
 
 	void Text::setCharacterSize(unsigned size)
 	{
 		mText.setCharacterSize(size);
-		mOutline.setCharacterSize(size);
+		if (mShadow)
+			mShadow->setCharacterSize(size);
 	}
 
 	void Text::setStyle(sf::Uint32 style)
 	{
 		mText.setStyle(style);
-		mOutline.setStyle(style);
+		if (mShadow)
+			mShadow->setStyle(style);
 	}
 
-	void Text::setColor(const sf::Color& color)
+	void Text::setTextColor(const sf::Color& color)
 	{
 		mText.setColor(color);
-		mOutline.setColor(color == sf::Color::Black ? sf::Color::White : sf::Color::Black);
+	}
+
+	void Text::setOriginFlags(sf::Uint32 originFlags)
+	{
+		mOriginFlags = originFlags;
+
+		utils::setOriginFlags(mText, originFlags);
+		if (mShadow)
+			utils::setOriginFlags(*mShadow, originFlags);
+	}
+
+	void Text::activateShadow(bool flag)
+	{
+		if (flag) {
+			mShadow = std::make_unique<sf::Text>();
+			*mShadow = mText;
+		}
+		else
+			mShadow.reset();
+	}
+
+	void Text::setShadowOffset(float xOffset, float yOffset)
+	{
+		if (mShadow)
+			mShadow->setPosition(xOffset, yOffset);
+	}
+
+	void Text::setShadowOffset(const sf::Vector2f& offset)
+	{
+		setShadowOffset(offset.x, offset.y);
+	}
+
+	void Text::setShadowColor(const sf::Color& color)
+	{
+		if (mShadow)
+			mShadow->setColor(color);
 	}
 
 	sf::FloatRect Text::getGlobalBounds() const
 	{
 		return getTransform().transformRect(mText.getGlobalBounds());
+	}
+
+	const sf::Font* Text::getFont() const
+	{
+		if (mFont)
+			return mFont.get();
+		else {
+			const sf::Font* textFont(mText.getFont());
+			return textFont ? textFont : nullptr;
+		}
 	}
 }

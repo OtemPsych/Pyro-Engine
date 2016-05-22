@@ -29,6 +29,11 @@ namespace pyro
 			target.draw(mText, states);
 		}
 
+		bool ClickableGUIEntity::hover()
+		{
+			return getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(mWindow)));
+		}
+
 		bool ClickableGUIEntity::clicked(const sf::Event& event, bool previousFlag)
 		{
 			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)

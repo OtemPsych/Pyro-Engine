@@ -10,7 +10,7 @@ namespace pyro
 		: mPrimeParticle(new Particle(prime))
 		, mTexture(texture)
 		, mMaxParticles(0)
-		, mVertexArray(sf::TrianglesFan)
+		, mVertexArray(sf::Quads)
 	{
 	}
 

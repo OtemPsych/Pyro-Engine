@@ -27,6 +27,7 @@ namespace pyro
 			ClickableGUIEntity(sf::RenderWindow& window, sf::Vector2f size);
 			virtual ~ClickableGUIEntity();
 		public:
+			bool hover();
 			bool clicked(const sf::Event& event, bool previousFlag = false);
 
 			sf::FloatRect getGlobalBounds() const;

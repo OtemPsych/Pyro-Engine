@@ -1,3 +1,33 @@
+v1.2.6 | 21/05/2016
+
+  Features
+
+    * Added an OriginFlags enum that can be combined
+
+    * Added new StateIDs: Achievements, Challenges, Replays, and MultiplayerLobby
+
+  Updates
+
+    - Changes to Text class:
+        * Addition of an optional shadow text
+        * Addition of an optional font that can be loaded directly from the text class
+        - Removal of the outline text
+        - The text's origin can easily be changed using the origin flags
+
+
+
+v1.2.5a | 01/05/2016
+
+  Features
+
+    * Added a hover method for the ClickableGUIEntity class
+
+  Updates
+
+    - State's StateStack member in now protected
+
+
+
 v1.2.5 | 29/04/2016, 30/04/2016
 
   Features
@@ -119,7 +149,7 @@ v1.1.0 | 22/11/2015
 
     - Removed all SceneNode related classes and replaced them with stand-alone counterparts
 
-    - Collision Handler now takes account all transforms for the pixel perfect collision test (rotation, scaling)
+    - Collision Handler now takes account of rotation and scale for the pixel perfect collision test
 
 
 
