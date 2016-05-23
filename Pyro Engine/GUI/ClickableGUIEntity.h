@@ -22,7 +22,7 @@ namespace pyro
 		private:
 			void centerOrigin();
 		protected:
-			virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+			virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 		public:
 			ClickableGUIEntity(sf::RenderWindow& window, sf::Vector2f size);
 			virtual ~ClickableGUIEntity();
