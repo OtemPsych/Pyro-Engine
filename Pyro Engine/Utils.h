@@ -27,7 +27,7 @@ namespace pyro
 			Bottom  = 1 << 5
 		};
 		template <class T>
-		void setOriginFlags(T& t, sf::Uint32 originFlags);
+		void setOriginFlags(T& t, sf::Uint16 originFlags);
 	}
 }
 #include "Utils.inl"

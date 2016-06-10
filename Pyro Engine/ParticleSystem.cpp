@@ -72,8 +72,10 @@ namespace pyro
 	{
 		if (mEmitterActive && mInitializer && mAffector)
 		{
-			if (mParticles.size() < mMaxParticles || mMaxParticles == 0)
+			for (unsigned i = mParticles.size(); i < mMaxParticles; i++)
 				addParticle();
+			//if (mParticles.size() < mMaxParticles || mMaxParticles == 0)
+			//	addParticle();
 
 			for (auto& particle : mParticles) {
 				(*mAffector)(particle, dt);

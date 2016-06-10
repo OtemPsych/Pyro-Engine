@@ -1,4 +1,5 @@
 #include "Text.h"
+#include "Utils.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
@@ -7,64 +8,54 @@
 namespace pyro
 {
 	Text::Text()
-		: mShadow(nullptr)
-		, mFont(nullptr)
-		, mOriginFlags(utils::OriginFlags::Left | utils::OriginFlags::Top)
+		: mOriginFlags(utils::OriginFlags::Left | utils::OriginFlags::Top)
 	{
+	}
+
+	void Text::recalculateOriginFlags()
+	{
+		utils::setOriginFlags(mText, mOriginFlags);
+		utils::setOriginFlags(mShadow, mOriginFlags);
 	}
 
 	void Text::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= getTransform();
 
-		if (mShadow) 
-			target.draw(*mShadow, states);
+		target.draw(mShadow, states);
 		target.draw(mText, states);
 	}
 
 	void Text::setString(const std::string& string)
 	{
 		mText.setString(string);
-		if (mShadow)
-			mShadow->setString(string);
+		mShadow.setString(string);
 
-		setOriginFlags(mOriginFlags);
+		recalculateOriginFlags();
 	}
 
 	void Text::setFont(const sf::Font& font)
 	{
 		mText.setFont(font);
-		if (mShadow)
-			mShadow->setFont(font);
+		mShadow.setFont(font);
 
-		mFont.reset();
-	}
-
-	void Text::loadFontFromFile(const std::string& filename)
-	{
-		mFont = std::make_unique<sf::Font>();
-		if (!mFont->loadFromFile(filename)) {
-			std::cout << "pyro::Text::loadFontFromFile - Failed to load " << filename << std::endl;
-			return;
-		}
-
-		mText.setFont(*mFont);
-		if (mShadow)
-			mShadow->setFont(*mFont);
+		recalculateOriginFlags();
 	}
 
 	void Text::setCharacterSize(unsigned size)
 	{
 		mText.setCharacterSize(size);
-		if (mShadow)
-			mShadow->setCharacterSize(size);
+		mShadow.setCharacterSize(size);
+
+		recalculateOriginFlags();
 	}
 
 	void Text::setStyle(sf::Uint32 style)
 	{
 		mText.setStyle(style);
-		if (mShadow)
-			mShadow->setStyle(style);
+		mShadow.setStyle(style);
+
+		recalculateOriginFlags();
 	}
 
 	void Text::setTextColor(const sf::Color& color)
@@ -72,29 +63,16 @@ namespace pyro
 		mText.setColor(color);
 	}
 
-	void Text::setOriginFlags(sf::Uint32 originFlags)
+	void Text::setOriginFlags(sf::Uint16 originFlags)
 	{
 		mOriginFlags = originFlags;
-
-		utils::setOriginFlags(mText, originFlags);
-		if (mShadow)
-			utils::setOriginFlags(*mShadow, originFlags);
-	}
-
-	void Text::activateShadow(bool flag)
-	{
-		if (flag) {
-			mShadow = std::make_unique<sf::Text>();
-			*mShadow = mText;
-		}
-		else
-			mShadow.reset();
+		recalculateOriginFlags();
 	}
 
 	void Text::setShadowOffset(float xOffset, float yOffset)
 	{
-		if (mShadow)
-			mShadow->setPosition(xOffset, yOffset);
+		mShadow.setPosition(xOffset, yOffset);
+		recalculateOriginFlags();
 	}
 
 	void Text::setShadowOffset(const sf::Vector2f& offset)
@@ -104,22 +82,11 @@ namespace pyro
 
 	void Text::setShadowColor(const sf::Color& color)
 	{
-		if (mShadow)
-			mShadow->setColor(color);
+		mShadow.setColor(color);
 	}
 
 	sf::FloatRect Text::getGlobalBounds() const
 	{
 		return getTransform().transformRect(mText.getGlobalBounds());
-	}
-
-	const sf::Font* Text::getFont() const
-	{
-		if (mFont)
-			return mFont.get();
-		else {
-			const sf::Font* textFont(mText.getFont());
-			return textFont ? textFont : nullptr;
-		}
 	}
 }

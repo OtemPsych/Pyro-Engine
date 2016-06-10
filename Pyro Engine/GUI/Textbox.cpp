@@ -11,7 +11,7 @@ namespace pyro
 		{
 			sf::FloatRect caretLBounds(mCaret.getLocalBounds());
 			mCaret.setOrigin(caretLBounds.width / 2.f, caretLBounds.height / 2.f);
-			mCaret.setFillColor(mShape.getFillColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
+			mCaret.setFillColor(sf::Color::Black);
 		}
 
 		void Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const

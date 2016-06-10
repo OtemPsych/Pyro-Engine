@@ -13,6 +13,7 @@ namespace pyro
 			Achievements,
 			Challenges,
 			Replays,
+			Deck,
 			Settings,
 			Loading,
 			Game,

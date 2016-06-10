@@ -1,4 +1,5 @@
 #include "ClickableGUIEntity.h"
+#include "../Utils.h"
 
 namespace pyro
 {
@@ -6,45 +7,50 @@ namespace pyro
 	{
 		ClickableGUIEntity::ClickableGUIEntity(sf::RenderWindow& window, sf::Vector2f size)
 			: mWindow(window)
-			, mShape(size)
+			, mBox(size)
+			, mOriginFlags(utils::OriginFlags::Left | utils::OriginFlags::Top)
 		{
-			centerOrigin();
 		}
 
 		ClickableGUIEntity::~ClickableGUIEntity()
 		{
 		}
 
-		void ClickableGUIEntity::centerOrigin()
-		{
-			sf::FloatRect shapeLBounds(mShape.getLocalBounds());
-			mShape.setOrigin(shapeLBounds.width / 2.f, shapeLBounds.height / 2.f);
-		}
-
 		void ClickableGUIEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		{
-			states.transform *= getTransform();
-
-			target.draw(mShape, states);
+			target.draw(mBox, states.transform *= getTransform());
 			target.draw(mText, states);
 		}
 
 		bool ClickableGUIEntity::hover()
 		{
-			return getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(mWindow)));
+			return getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow)));
 		}
 
 		bool ClickableGUIEntity::clicked(const sf::Event& event, bool previousFlag)
 		{
-			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
-				return getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(mWindow)));
+			if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
+				return hover();
 			else
 				return previousFlag;
 		}
 
+		void ClickableGUIEntity::setOriginFlags(sf::Uint16 originFlags)
+		{
+			mOriginFlags = originFlags;
+
+			utils::setOriginFlags(*this, originFlags);
+			mText.setOriginFlags(mText.getOriginFlags());
+		}
+
+		sf::FloatRect ClickableGUIEntity::getLocalBounds() const
+		{
+			return mBox.getLocalBounds();
+		}
+
 		sf::FloatRect ClickableGUIEntity::getGlobalBounds() const
 		{
-			return getTransform().transformRect(mShape.getGlobalBounds());
+			return getTransform().transformRect(mBox.getGlobalBounds());
 		}
 	}
 }

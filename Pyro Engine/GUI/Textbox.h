@@ -3,6 +3,8 @@
 
 #include "ClickableGUIEntity.h"
 
+#include <SFML/Graphics/RectangleShape.hpp>
+
 namespace pyro
 {
 	namespace gui
@@ -19,6 +21,7 @@ namespace pyro
 			Textbox(sf::RenderWindow& window, sf::Vector2f size);
 		public:
 			void handleEvent(const sf::Event& event);
+			void setCaretColor(const sf::Color& color);
 		};
 	}
 }

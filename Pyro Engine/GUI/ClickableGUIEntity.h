@@ -16,11 +16,10 @@ namespace pyro
 		private:
 			sf::RenderWindow&  mWindow;
 		protected:
-			sf::RectangleShape mShape;
+			sf::RectangleShape mBox;
 			Text               mText;
+			sf::Uint16         mOriginFlags;
 
-		private:
-			void centerOrigin();
 		protected:
 			virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 		public:
@@ -30,10 +29,14 @@ namespace pyro
 			bool hover();
 			bool clicked(const sf::Event& event, bool previousFlag = false);
 
+			void setOriginFlags(sf::Uint16 originFlags);
+
+			sf::FloatRect getLocalBounds() const;
 			sf::FloatRect getGlobalBounds() const;
 
-			inline sf::RectangleShape& getShape() { return mShape; }
-			inline Text& getText() { return mText; }
+			inline sf::RectangleShape&       getBox() { return mBox; }
+			inline const sf::RectangleShape& getBox() const { return mBox; }
+			inline Text&                     getText() { return mText; }
 		};
 	}
 }

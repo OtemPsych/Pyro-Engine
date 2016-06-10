@@ -12,7 +12,7 @@ namespace pyro
 		}
 
 		template <class T>
-		void setOriginFlags(T& t, sf::Uint32 originFlags)
+		void setOriginFlags(T& t, sf::Uint16 originFlags)
 		{
 			const sf::FloatRect lBounds(t.getLocalBounds());
 			if (originFlags == OriginFlags::Center) {
@@ -24,14 +24,14 @@ namespace pyro
 			if (originFlags & OriginFlags::CenterX)
 				newOrigin.x = lBounds.left + lBounds.width / 2.f;
 			else if (originFlags & OriginFlags::Left)
-				newOrigin.x = 0.f;
+				newOrigin.x = lBounds.left;
 			else if (originFlags & OriginFlags::Right)
 				newOrigin.x = lBounds.left + lBounds.width;
 
 			if (originFlags & OriginFlags::CenterY)
 				newOrigin.y = lBounds.top + lBounds.height / 2.f;
 			else if (originFlags & OriginFlags::Top)
-				newOrigin.y = 0.f;
+				newOrigin.y = lBounds.top;
 			else if (originFlags & OriginFlags::Bottom)
 				newOrigin.y = lBounds.top + lBounds.height;
 
